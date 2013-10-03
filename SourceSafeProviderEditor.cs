@@ -21,7 +21,7 @@ namespace Inedo.BuildMasterExtensions.SourceSafe
             var prov = (SourceSafeProvider)e.Extension;
             if (prov.Timeout < 15) 
             {
-                e.ValidLevel = ValidationLevels.Error;
+                e.ValidLevel = ValidationLevel.Error;
                 e.Message = "The timeout must be at least 15 seconds.";
             }
         }

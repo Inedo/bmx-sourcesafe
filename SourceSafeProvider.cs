@@ -20,9 +20,10 @@ namespace Inedo.BuildMasterExtensions.SourceSafe
     /// </summary>
     [ProviderProperties(
         "Visual SourceSafe",
-        "Supports Microsoft Visual SourceSafe (VSS) 6.0 and later; requires that VSS is installed.")]
+        "Supports Microsoft Visual SourceSafe (VSS) 6.0 and later; requires that VSS is installed.",
+        RequiresTransparentProxy = true)]
     [CustomEditor(typeof(SourceSafeProviderEditor))]
-    public sealed class SourceSafeProvider : SourceControlProviderBase, IVersioningProvider
+    public sealed class SourceSafeProvider : SourceControlProviderBase, ILabelingProvider
     {
         /// <summary>
         /// Gets or sets the user defined source safe client exe path.
@@ -132,9 +133,7 @@ namespace Inedo.BuildMasterExtensions.SourceSafe
         public override void GetLatest(string sourcePath, string targetPath)
         {
             targetPath = targetPath.TrimEnd(Path.DirectorySeparatorChar);
-            Util.Files.ValidateInputPath(targetPath);
-            if (!System.IO.Directory.Exists(targetPath))
-                System.IO.Directory.CreateDirectory(targetPath);
+            System.IO.Directory.CreateDirectory(targetPath);
 
             RunCommand(SourceSafeCommands.GET,
                 "\"" + sourcePath + "\"",
@@ -152,9 +151,7 @@ namespace Inedo.BuildMasterExtensions.SourceSafe
         public void GetLabeled(string label, string sourcePath, string targetPath)
         {
             targetPath = targetPath.TrimEnd(Path.DirectorySeparatorChar);
-            Util.Files.ValidateInputPath(targetPath);
-            if (!System.IO.Directory.Exists(targetPath))
-                System.IO.Directory.CreateDirectory(targetPath);
+            System.IO.Directory.CreateDirectory(targetPath);
 
             RunCommand(SourceSafeCommands.GET,
                 "\"" + sourcePath + "\"",
